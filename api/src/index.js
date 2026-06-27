@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db/pool');
 
+const authRoutes = require('./routes/auth');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -17,6 +19,8 @@ app.get('/health', async (req, res) => {
     res.status(500).json({ status: 'ok', db: 'disconnected', error: err.message });
   }
 });
+
+app.use('/api/auth', authRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
