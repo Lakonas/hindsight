@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const pool = require('./db/pool');
 const incidentRoutes = require('./routes/incidents');
+const timelineRoutes = require('./routes/timeline');
+const factorRoutes = require('./routes/factors');
+const actionRoutes = require('./routes/actions');
 
 const authRoutes = require('./routes/auth');
 
@@ -12,6 +15,9 @@ const PORT = process.env.PORT || 3001;
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
 app.use(express.json());
 app.use('/api/incidents', incidentRoutes);
+app.use('/api/incidents', timelineRoutes);
+app.use('/api/incidents', factorRoutes);
+app.use('/api/incidents', actionRoutes);
 app.get('/health', async (req, res) => {
   try {
     await pool.query('SELECT 1');
