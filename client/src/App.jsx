@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
+import AppLayout from './components/AppLayout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import IncidentDetail from './pages/IncidentDetail'
@@ -13,17 +14,17 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={
           <ProtectedRoute>
-            <Dashboard />
+            <AppLayout><Dashboard /></AppLayout>
           </ProtectedRoute>
         } />
         <Route path="/incidents/:id" element={
           <ProtectedRoute>
-            <IncidentDetail />
+            <AppLayout><IncidentDetail /></AppLayout>
           </ProtectedRoute>
         } />
         <Route path="/incidents/:id/postmortem" element={
           <ProtectedRoute>
-            <Postmortem />
+            <AppLayout><Postmortem /></AppLayout>
           </ProtectedRoute>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
