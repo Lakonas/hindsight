@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import IncidentDetail from './pages/IncidentDetail'
 import Postmortem from './pages/Postmortem'
+import NewIncident from './pages/NewIncident'
 
 export default function App() {
   return (
@@ -15,6 +16,11 @@ export default function App() {
         <Route path="/" element={
           <ProtectedRoute>
             <AppLayout><Dashboard /></AppLayout>
+          </ProtectedRoute>
+        } />
+        <Route path="/incidents/new" element={
+          <ProtectedRoute>
+            <AppLayout><NewIncident /></AppLayout>
           </ProtectedRoute>
         } />
         <Route path="/incidents/:id" element={
