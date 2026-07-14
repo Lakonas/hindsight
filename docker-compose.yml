@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: hindsight
+      POSTGRES_USER: hindsight_user
+      POSTGRES_PASSWORD: hindsight_pass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./api/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5434:5432"
+
+  api:
+    build: ./api
+    environment:
+      DATABASE_URL: postgres://hindsight_user:hindsight_pass@db:5432/hindsight
+      JWT_SECRET: dev_secret_change_in_prod
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      CLIENT_URL: http://localhost:5173
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+
+  client:
+    build: ./client
+    ports:
+      - "5173:5173"
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
