@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard'
 import IncidentDetail from './pages/IncidentDetail'
 import Postmortem from './pages/Postmortem'
 import NewIncident from './pages/NewIncident'
+import Register from './pages/Register'
 
 export default function App() {
   return (
@@ -18,6 +19,8 @@ export default function App() {
             <AppLayout><Dashboard /></AppLayout>
           </ProtectedRoute>
         } />
+        <Route path="/register" element={<Register />} />
+        
         <Route path="/incidents/new" element={
           <ProtectedRoute>
             <AppLayout><NewIncident /></AppLayout>
