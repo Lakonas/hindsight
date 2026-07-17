@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: hindsight_test
+          POSTGRES_USER: hindsight_user
+          POSTGRES_PASSWORD: hindsight_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: api/package-lock.json
+
+      - name: Install API dependencies
+        run: npm ci
+        working-directory: api
+
+      - name: Run schema
+        run: psql postgres://hindsight_user:hindsight_pass@localhost:5432/hindsight_test -f db/schema.sql
+        working-directory: api
+
+      - name: Run tests
+        run: npm test
+        working-directory: api
+        env:
+          DATABASE_URL: postgres://hindsight_user:hindsight_pass@localhost:5432/hindsight_test
+          JWT_SECRET: test_secret
+          
