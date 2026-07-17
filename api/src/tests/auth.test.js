@@ -1,5 +1,5 @@
-process.env.DATABASE_URL = 'postgres://hindsight_user:hindsight_pass@localhost:5433/hindsight'
-process.env.JWT_SECRET = 'test_secret'
+process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgres://hindsight_user:hindsight_pass@localhost:5433/hindsight'
+process.env.JWT_SECRET = process.env.JWT_SECRET || 'test_secret'
 const request = require('supertest')
 const express = require('express')
 const pool = require('../db/pool')
