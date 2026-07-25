@@ -9,7 +9,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./api/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
-      - "5434:5432"
+      - "5434:5432" # WSL users: local Postgres occupies 5433, using 5434 to avoid conflict
 
   api:
     build: ./api
